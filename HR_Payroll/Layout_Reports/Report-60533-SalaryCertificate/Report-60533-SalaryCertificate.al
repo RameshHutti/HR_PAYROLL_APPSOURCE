@@ -2,7 +2,7 @@ report 60533 "Salary Certificate"
 {
 
     DefaultLayout = RDLC;
-    //RDLCLayout = './HR_Payroll/Layout_Reports/Report-60533-SalaryCertificate/Leave Analysis.rdlc';
+    RDLCLayout = 'HR_Payroll\Layout_Reports\Report-60533-SalaryCertificate\salarycertificate.rdl';
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
     dataset

@@ -1,7 +1,7 @@
 report 60531 "Payroll Statement Report New"
 {
     DefaultLayout = RDLC;
-    RDLCLayout = './HR_Payroll/Layout_Reports/Report-60531-PayrollStatementReportNew/PayrollStatementReportNew.rdl';
+    RDLCLayout = 'HR_Payroll\Layout_Reports\Report-60531-PayrollStatementReportNew\payrollstatementreport.rdl';
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
 

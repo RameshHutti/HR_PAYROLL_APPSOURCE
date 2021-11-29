@@ -1,7 +1,7 @@
 report 60029 "Birthdays Report"
 {
     DefaultLayout = RDLC;
-    //RDLCLayout = 'Birthdays Report.rdlc';
+    RDLCLayout = 'HR_Payroll\Layout_Reports\Report-60029-BirthdaysReport\BirthdaysReport.rdl';
 
     dataset
     {

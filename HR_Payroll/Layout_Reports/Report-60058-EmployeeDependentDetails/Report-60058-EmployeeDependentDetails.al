@@ -1,7 +1,7 @@
 report 60058 "Employee Dependent Details"
 {
     DefaultLayout = RDLC;
-    // RDLCLayout = 'EmployeeDependentDetails.rdlc';
+    RDLCLayout = 'HR_Payroll\Layout_Reports\Report-60058-EmployeeDependentDetails\EmployeeDependentDetails.rdl';
     PreviewMode = PrintLayout;
 
     dataset

@@ -1,7 +1,7 @@
 report 60030 "Leave Balance"
 {
     DefaultLayout = RDLC;
-    //RDLCLayout = './Leave Balance BC.rdlc';
+    RDLCLayout = 'HR_Payroll\Layout_Reports\Report-60030-LeaveBalance\leavebalance.rdl';
 
     dataset
     {

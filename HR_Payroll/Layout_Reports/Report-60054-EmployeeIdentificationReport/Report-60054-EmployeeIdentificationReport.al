@@ -1,7 +1,7 @@
 report 60054 "Employee Identification Report"
 {
     DefaultLayout = RDLC;
-    // RDLCLayout = 'EmployeeIdentificationReport.rdlc';
+    RDLCLayout = 'HR_Payroll\Layout_Reports\Report-60054-EmployeeIdentificationReport\EmployeeIdentificationReport.rdl';
     PreviewMode = PrintLayout;
     ApplicationArea = All;
     UsageCategory = ReportsAndAnalysis;

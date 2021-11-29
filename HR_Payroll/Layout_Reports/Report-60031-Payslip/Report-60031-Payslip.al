@@ -1,7 +1,7 @@
 report 60031 Payslip
 {
     DefaultLayout = RDLC;
-    // RDLCLayout = 'Payslip.rdlc';
+    RDLCLayout = 'HR_Payroll\Layout_Reports\Report-60031-Payslip\payslip.rdl';
     PreviewMode = PrintLayout;
 
     dataset

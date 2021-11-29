@@ -1,7 +1,7 @@
 report 60028 "Leave Analysis"
 {
     DefaultLayout = RDLC;
-    //RDLCLayout = 'LeaveAnalysis.rdlc';
+    RDLCLayout = 'HR_Payroll\Layout_Reports\Report-60028-LeaveAnalysis\leaveanalysis.rdl';
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
 

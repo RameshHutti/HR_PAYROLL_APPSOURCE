@@ -1,7 +1,7 @@
 report 60057 "Emp Dependent Identification"
 {
     DefaultLayout = RDLC;
-    //RDLCLayout = 'EmpDependentIdentification.rdlc';
+    RDLCLayout = 'HR_Payroll\Layout_Reports\Report-60057-EmpDependentIdentification\EmpDependentIdentification.rdl';
     PreviewMode = PrintLayout;
 
     dataset

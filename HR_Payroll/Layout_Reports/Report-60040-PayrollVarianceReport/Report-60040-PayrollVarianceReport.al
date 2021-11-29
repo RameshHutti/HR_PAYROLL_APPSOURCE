@@ -1,7 +1,7 @@
 report 60040 "Payroll Variance Report"
 {
     DefaultLayout = RDLC;
-    // RDLCLayout = 'PayrollVarianceReport.rdlc';
+    RDLCLayout = 'HR_Payroll\Layout_Reports\Report-60040-PayrollVarianceReport\PayrollVarianceReport.rdl';
 
     dataset
     {
