@@ -1,6 +1,6 @@
 codeunit 70001 "Advance Workflow"
 {
-    Permissions = tabledata 454 = rimd;  //30.11.2020
+    Permissions = tabledata 454 = rimd;
     procedure LeaveRequest_SwapApprovalUser_Advance_LT(DocRecodsID: RecordID)
     var
         ApprovalEntrtyTranscationRecL: Record "Approval Entrty Transcation";
@@ -8,7 +8,6 @@ codeunit 70001 "Advance Workflow"
         ApprovalEntryRecL: Record "Approval Entry";
         LeaveRequestHeaderRecL: Record "Leave Request Header";
     begin
-        // Start 22.04.2020
         ApprovalEntrtyTranscationRecL.RESET;
         ApprovalEntrtyTranscationRecL.SETCURRENTKEY("Sequence No.");
         ApprovalEntrtyTranscationRecL.SETRANGE("Document RecordsID", DocRecodsID);
@@ -18,7 +17,6 @@ codeunit 70001 "Advance Workflow"
                     if ApprovalEntrtyTranscationRecL.Count > 1 then
                         ApprovalEntrtyTranscationRecL.Delete()
             until ApprovalEntrtyTranscationRecL.Next() = 0;
-        // Stop 22.04.2020
 
         ApprovalEntrtyTranscationRecL.RESET;
         ApprovalEntrtyTranscationRecL.SETCURRENTKEY("Sequence No.");
@@ -62,7 +60,6 @@ codeunit 70001 "Advance Workflow"
     end;
 
     // ### ===================================Delete Extra Line in Approval Entry Table ========================
-    // Start 22.04.2020
     procedure DeleteExtraLine_ApprovalEntry_LT(DocRecodsID: RecordID)
     var
         ApprovalEntrtyTranscationRecL: Record "Approval Entrty Transcation";
@@ -84,5 +81,4 @@ codeunit 70001 "Advance Workflow"
             until ApprovalEntryRecL.Next() = 0;
         END;
     end;
-    // Stop 22.04.2020
 }
