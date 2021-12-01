@@ -296,6 +296,10 @@ page 70172 "Leave Request Card ESS"
                             AdvanceWorkflowCUL.LeaveRequest_SwapApprovalUser_Advance_LT(Rec.RecordId);
                             AdvanceWorkflowCUL.DeleteExtraLine_ApprovalEntry_LT(Rec.RecordId);
                             CancelAndDeleteApprovalEntryTrans_LT(Rec.RecordId);
+
+                            //Creating Manual Notfication because of Customization of Advanced WF
+                            CreateManulNotificationLRH(Rec);
+                            //Stop Creating Manual Notfication
                         end;
                     end;
                 }
@@ -1018,4 +1022,36 @@ page 70172 "Leave Request Card ESS"
         else
             GenBoolG := false;
     end;
+
+    //Creating Manual Notfication because of Customization of Advanced WF
+    local procedure GetEntryAprovalEntryTableSLR(LeaveRequestHeader: Record "Leave Request Header"): Integer;
+    var
+        ApprovalEntry: Record "Approval Entry";
+    begin
+        Clear(ApprovalEntry);
+        ApprovalEntry.SetCurrentKey("Entry No.");
+        ApprovalEntry.SetRange("Document No.", LeaveRequestHeader."Leave Request ID");
+        ApprovalEntry.SetRange("Record ID to Approve", LeaveRequestHeader.RecordId);
+        ApprovalEntry.SetRange("Table ID", Database::"Leave Request Header");
+        ApprovalEntry.SetAscending("Entry No.", true);
+        if ApprovalEntry.FindFirst() then
+            exit(ApprovalEntry."Entry No.");
+    end;
+
+
+    local procedure CreateManulNotificationLRH(LeaveRequestHeader: Record "Leave Request Header")
+    var
+        NotificationEntry: Record "Notification Entry";
+        ApprovalEntry: Record "Approval Entry";
+    begin
+        ApprovalEntry.Get(GetEntryAprovalEntryTableSLR(LeaveRequestHeader));
+        NotificationEntry.CreateNotificationEntry(
+        NotificationEntry.Type::Approval,
+        ApprovalEntry."Approver ID",
+        ApprovalEntry,
+        Page::"Approval Entries",
+        GetUrl(ClientType::Web, CompanyName, ObjectType::Page, Page::"Requests to Approve", ApprovalEntry, false),
+                            ApprovalEntry."Sender ID");
+    end;
+    //Stop Creating Manual Notfication
 }

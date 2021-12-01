@@ -468,7 +468,7 @@ codeunit 60056 WFCode_Short_Leave_Request
     local procedure OnConditionalCardPageIDNotFound(RecordRef: RecordRef; VAR CardPageID: Integer)
     begin
         CASE RecordRef.NUMBER OF
-            DATABASE::"Short Leave Header":
+            DATABASE::"Leave Request Header":
                 CardPageID := Page::"Leave Request Card";
             Database::"Cancel Leave Request":
                 CardPageID := Page::"Cancel Leave Requests";
@@ -484,6 +484,8 @@ codeunit 60056 WFCode_Short_Leave_Request
                 CardPageID := Page::"Loan Adjustment";
             Database::"Payroll Statement":
                 CardPageID := Page::"Payroll Statements";
+            Database::"Short Leave Header":
+                CardPageID := Page::"Short Leave Request Card";
         end;
     end;
 

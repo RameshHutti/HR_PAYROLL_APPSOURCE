@@ -136,6 +136,10 @@ page 60062 "Duty Resumption"
                         AdvanceWorkflowCUL.DeleteExtraLine_ApprovalEntry_LT(Rec.RecordId);
                         AdvanceWorkflowCUL.LeaveRequest_SwapApprovalUser_Advance_LT(Rec.RecordId);
                         AdvanceWorkflowCUL.DeleteExtraLine_ApprovalEntry_LT(Rec.RecordId);
+
+                        //Creating Manual Notfication because of Customization of Advanced WF
+                        CreateManulNotificationWF(Rec);
+                        //Stop Creating Manual Notfication
                     end;
                 end;
             }
@@ -449,4 +453,35 @@ page 60062 "Duty Resumption"
                 exit(PayrollPositionRec_L.Worker);
         end;
     end;
+
+    //Creating Manual Notfication because of Customization of Advanced WF
+    local procedure GetEntryAprovalEntryTableDR(DutyResumptionL: Record "Duty Resumption"): Integer;
+    var
+        ApprovalEntry: Record "Approval Entry";
+    begin
+        Clear(ApprovalEntry);
+        ApprovalEntry.SetCurrentKey("Entry No.");
+        ApprovalEntry.SetRange("Document No.", DutyResumptionL."Leave Request ID");
+        ApprovalEntry.SetRange("Record ID to Approve", DutyResumptionL.RecordId);
+        ApprovalEntry.SetRange("Table ID", Database::"Duty Resumption");
+        ApprovalEntry.SetAscending("Entry No.", true);
+        if ApprovalEntry.FindFirst() then
+            exit(ApprovalEntry."Entry No.");
+    end;
+
+    local procedure CreateManulNotificationWF(SDutyResumptionL: Record "Duty Resumption")
+    var
+        NotificationEntry: Record "Notification Entry";
+        ApprovalEntry: Record "Approval Entry";
+    begin
+        ApprovalEntry.Get(GetEntryAprovalEntryTableDR(SDutyResumptionL));
+        NotificationEntry.CreateNotificationEntry(
+        NotificationEntry.Type::Approval,
+        ApprovalEntry."Approver ID",
+        ApprovalEntry,
+        Page::"Approval Entries",
+        GetUrl(ClientType::Web, CompanyName, ObjectType::Page, Page::"Requests to Approve", ApprovalEntry, false),
+                            ApprovalEntry."Sender ID");
+    end;
+    //Stop Creating Manual Notfication
 }

@@ -476,6 +476,8 @@ codeunit 60026 WFCode_Leave_Request
                 CardPageID := Page::"Loan Adjustment";
             Database::"Payroll Statement":
                 CardPageID := Page::"Payroll Statements";
+            Database::"Short Leave Header":
+                CardPageID := Page::"Short Leave Request Card";
         end;
     end;
 

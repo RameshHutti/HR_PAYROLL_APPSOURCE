@@ -25,6 +25,7 @@ page 70173 "Out of Office Card"
                 {
                     ApplicationArea = all;
                     Editable = false;
+                    Enabled = false;
                     ShowMandatory = true;
                 }
                 field("Employee Name"; Rec."Employee Name")
@@ -217,6 +218,10 @@ page 70173 "Out of Office Card"
                             AdvanceWorkflowCUL.LeaveRequest_SwapApprovalUser_Advance_LT(Rec.RecordId);
                             AdvanceWorkflowCUL.DeleteExtraLine_ApprovalEntry_LT(Rec.RecordId);
                             CancelAndDeleteApprovalEntryTrans_LT(Rec.RecordId);
+
+                            //Creating Manual Notfication because of Customization of Advanced WF
+                            CreateManulNotificationSLH(Rec);
+                            //Stop Creating Manual Notfication
                         end;
                     end;
                 }
@@ -552,4 +557,36 @@ page 70173 "Out of Office Card"
                     exit(false);
         end;
     end;
+
+    //Creating Manual Notfication because of Customization of Advanced WF
+    local procedure GetEntryAprovalEntryTableSLR(ShortLeaveHeader: Record "Short Leave Header"): Integer;
+    var
+        ApprovalEntry: Record "Approval Entry";
+    begin
+        Clear(ApprovalEntry);
+        ApprovalEntry.SetCurrentKey("Entry No.");
+        ApprovalEntry.SetRange("Document No.", ShortLeaveHeader."Short Leave Request Id");
+        ApprovalEntry.SetRange("Record ID to Approve", ShortLeaveHeader.RecordId);
+        ApprovalEntry.SetRange("Table ID", Database::"Short Leave Header");
+        ApprovalEntry.SetAscending("Entry No.", true);
+        if ApprovalEntry.FindFirst() then
+            exit(ApprovalEntry."Entry No.");
+    end;
+
+
+    local procedure CreateManulNotificationSLH(ShortLeaveHeader: Record "Short Leave Header")
+    var
+        NotificationEntry: Record "Notification Entry";
+        ApprovalEntry: Record "Approval Entry";
+    begin
+        ApprovalEntry.Get(GetEntryAprovalEntryTableSLR(ShortLeaveHeader));
+        NotificationEntry.CreateNotificationEntry(
+        NotificationEntry.Type::Approval,
+        ApprovalEntry."Approver ID",
+        ApprovalEntry,
+        Page::"Approval Entries",
+        GetUrl(ClientType::Web, CompanyName, ObjectType::Page, Page::"Requests to Approve", ApprovalEntry, false),
+                            ApprovalEntry."Sender ID");
+    end;
+    //Stop Creating Manual Notfication
 }
