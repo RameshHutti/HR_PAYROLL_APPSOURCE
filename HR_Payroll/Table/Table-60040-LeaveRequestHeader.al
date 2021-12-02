@@ -1190,12 +1190,14 @@ table 60040 "Leave Request Header"
         RecLeaveRequest: Record "Leave Request Header";
         EmployeeInterimAccuralsL: Record "Employee Interim Accurals";
         HCMLeaveTypeWrkRecL: Record "HCM Leave Types Wrkr";
+        HCMLeaveTypeWrkRecL1: Record "HCM Leave Types Wrkr";
         YearL: Integer;
         TotalAMTL: Decimal;
     begin
         HCMLeaveTypeWrkRecL.Reset();
         HCMLeaveTypeWrkRecL.SetRange(Worker, Rec."Personnel Number");
         HCMLeaveTypeWrkRecL.SetRange("Leave Type Id", Rec."Leave Type");
+        HCMLeaveTypeWrkRecL.SetRange(Accrued, true);
         if HCMLeaveTypeWrkRecL.FindFirst() then begin
             if HCMLeaveTypeWrkRecL."Accrual ID" = '' then begin
                 Validate("Entitlement Days", HCMLeaveTypeWrkRecL."Entitlement Days");
@@ -1205,6 +1207,7 @@ table 60040 "Leave Request Header"
                 YearL := Date2DMY(WorkDate(), 3);
                 EmployeeInterimAccuralsL.SetRange("Accrual ID", HCMLeaveTypeWrkRecL."Accrual ID");
                 EmployeeInterimAccuralsL.SetFilter("Start Date", '>=%1', DMY2Date(01, 01, YearL));
+                EmployeeInterimAccuralsL.SetFilter("End Date", '<=%1', DMY2Date(31, 01, YearL + 1));
                 EmployeeInterimAccuralsL.SetRange("Worker ID", Rec."Personnel Number");
                 EmployeeInterimAccuralsL.CalcSums("Monthly Accrual Units", "Adjustment Units");
                 TotalAMTL := EmployeeInterimAccuralsL."Monthly Accrual Units" + EmployeeInterimAccuralsL."Adjustment Units";
@@ -1213,6 +1216,13 @@ table 60040 "Leave Request Header"
                 TotalAMTL += EmployeeInterimAccuralsL."Opening Balance Unit" + EmployeeInterimAccuralsL."Carryforward Deduction";
                 Validate("Entitlement Days", TotalAMTL);
             end;
+        end else begin
+            HCMLeaveTypeWrkRecL1.Reset();
+            HCMLeaveTypeWrkRecL1.SetRange(Worker, Rec."Personnel Number");
+            HCMLeaveTypeWrkRecL1.SetRange("Leave Type Id", Rec."Leave Type");
+            HCMLeaveTypeWrkRecL1.SetRange(Accrued, false);
+            if HCMLeaveTypeWrkRecL1.FindFirst() then
+                Validate("Entitlement Days", HCMLeaveTypeWrkRecL1."Entitlement Days");
         end;
 
         Clear(RecLeaveRequest);

@@ -171,6 +171,7 @@ page 70177 "My Leave Balance Chart"
                 YearL := Date2DMY(WorkDate(), 3);
                 EmployeeInterimAccuralsL.SetRange("Accrual ID", HCMLeaveTypeWrkrRecL."Accrual ID");
                 EmployeeInterimAccuralsL.SetFilter("Start Date", '>=%1', DMY2Date(01, 01, YearL));
+                EmployeeInterimAccuralsL.SetFilter("End Date", '<=%1', DMY2Date(31, 01, YearL + 1));
                 EmployeeInterimAccuralsL.SetRange("Worker ID", HCMLeaveTypeWrkrRecL.Worker);
                 EmployeeInterimAccuralsL.CalcSums("Monthly Accrual Units", "Adjustment Units");
                 TotalAMT := EmployeeInterimAccuralsL."Monthly Accrual Units" + EmployeeInterimAccuralsL."Adjustment Units";

@@ -322,13 +322,13 @@ page 70150 "Advance Payroll & HR RC"
                     action("Short Leave Request List")
                     {
                         ApplicationArea = BasicHR;
-                        Caption = 'Out of Office Requesrt';
+                        Caption = 'Out of Office Requests';
                         RunObject = page "Short Leave Request List";
                     }
                     action("Documents Request")
                     {
                         ApplicationArea = BasicHR;
-                        Caption = 'Documents Request';
+                        Caption = 'Document Requests';
                         RunObject = page "Document Request List";
                     }
                 }
